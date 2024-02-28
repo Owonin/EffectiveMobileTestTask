@@ -1,0 +1,10 @@
+package domain.repository;
+
+import domain.entity.UserEntity;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.Optional;
+
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
+    Optional<UserEntity> findUserByLogin(String login);
+}
