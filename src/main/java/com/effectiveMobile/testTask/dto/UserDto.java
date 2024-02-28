@@ -1,4 +1,4 @@
-package domain.dto;
+package com.effectiveMobile.testTask.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * Dto сущности пользователя
+ */
 @Builder
 @Getter
 @Setter

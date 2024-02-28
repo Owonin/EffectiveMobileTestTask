@@ -1,4 +1,4 @@
-package domain.entity;
+package com.effectiveMobile.testTask.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

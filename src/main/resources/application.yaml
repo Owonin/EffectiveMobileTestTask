@@ -11,10 +11,17 @@ spring:
     password: 123
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
         format_sql: true
   liquibase:
-    enabled: false
+    change-log: classpath:db/changelog/changelog.xml
+    enabled: true
+
+auth:
+  access-secret-key: this.secret.key.should.be.replaced
+  refresh-secret-key: this.secret.key.should.be.replaced.as.well
+  access-token-expiration-time-ms: 3600000
+  refresh-token-expiration-time-ms: 3600000

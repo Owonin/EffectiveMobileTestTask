@@ -1,4 +1,4 @@
-package domain.entity;
+package com.effectiveMobile.testTask.entity;
 
 import com.effectiveMobile.testTask.validation.PhoneNumber;
 import jakarta.persistence.*;

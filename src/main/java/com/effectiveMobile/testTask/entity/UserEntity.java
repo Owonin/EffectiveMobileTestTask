@@ -1,4 +1,4 @@
-package domain.entity;
+package com.effectiveMobile.testTask.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -50,20 +50,24 @@ public class UserEntity implements UserDetails {
     private LocalDate birthday;
 
     @Valid
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private Set<EmailEntity> emails;
 
     @Valid
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private Set<PhoneEntity> phones;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "balance", nullable = false)
+    @Column(name = "startBalance", nullable = false)
     @Size(min = 1, message = "Начальные накапления не должны быть пустыми")
-    private BigDecimal money;
+    private BigDecimal startBalance;
+
+    @Column(name = "currentMoney", nullable = false)
+    @Size(min = 0, message = "Текущие накапленя не могут быть отрицательными")
+    private BigDecimal currentBalance;
 
     @Column(name = "creationDateTime", nullable = false)
     private LocalDateTime creationDateTime;

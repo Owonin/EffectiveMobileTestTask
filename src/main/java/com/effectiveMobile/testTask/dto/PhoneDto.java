@@ -1,9 +1,13 @@
-package domain.dto;
+package com.effectiveMobile.testTask.dto;
 
 import com.effectiveMobile.testTask.validation.PhoneNumber;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
+/**
+ * DTO сущности телефонных номеров
+ */
 @Builder
 @Getter
 @Setter
@@ -11,6 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 public class PhoneDto {
 
+    @Positive
     private Long id;
 
     @NotBlank(message = "Номер телефона не должен быть пустым")
