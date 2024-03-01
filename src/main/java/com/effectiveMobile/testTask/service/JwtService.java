@@ -1,6 +1,6 @@
 package com.effectiveMobile.testTask.service;
 
-import com.effectiveMobile.testTask.entity.UserEntity;
+import com.effectiveMobile.testTask.request.AuthenticationRequest;
 import com.effectiveMobile.testTask.response.JwtResponse;
 
 
@@ -12,10 +12,10 @@ public interface JwtService {
     /**
      * Генерация токенов
      *
-     * @param userEntity Пользователь
+     * @param request Запрос авторизации
      * @return Токены для авторизации
      */
-    JwtResponse createToken(UserEntity userEntity);
+    JwtResponse createToken(AuthenticationRequest request);
 
     /**
      * Обновление access токена

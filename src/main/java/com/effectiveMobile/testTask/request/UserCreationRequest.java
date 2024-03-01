@@ -25,7 +25,7 @@ public class UserCreationRequest {
     private String password;
 
     @NotBlank(message = "ФИО пользователя не должно быть пустым")
-    private String fullUsername;
+    private String username;
 
     @Past
     @NotNull(message = "Дата рождения пользователя не должно быть пустым")

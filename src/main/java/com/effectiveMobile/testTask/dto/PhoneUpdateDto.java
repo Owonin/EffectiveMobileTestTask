@@ -1,28 +1,22 @@
-package com.effectiveMobile.testTask.entity;
+package com.effectiveMobile.testTask.dto;
 
 import com.effectiveMobile.testTask.validation.PhoneNumber;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "phones")
-public class PhoneEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "phone", unique = true, nullable = false)
+@AllArgsConstructor
+public class PhoneUpdateDto {
     @NotBlank(message = "Номер телефона не должен быть пустым")
     @PhoneNumber(message = "Не верный формат номера телефона, введите номер в формате +7 ХХХ ХХХ ХХ ХХ")
-    private String phone;
+    private String oldPhone;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @NotBlank(message = "Номер телефона не должен быть пустым")
+    @PhoneNumber(message = "Не верный формат номера телефона, введите номер в формате +7 ХХХ ХХХ ХХ ХХ")
+    private String newPhone;
 }

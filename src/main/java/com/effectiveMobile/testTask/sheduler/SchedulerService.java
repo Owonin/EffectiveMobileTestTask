@@ -2,7 +2,6 @@ package com.effectiveMobile.testTask.sheduler;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Value;

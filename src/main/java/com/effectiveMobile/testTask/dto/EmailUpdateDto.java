@@ -7,15 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * DTO сущности электронных почтовых адресов
- */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailDto {
+public class EmailUpdateDto {
     @Email
     @NotEmpty(message = "Email не должен быть пустым")
-    private String email;
+    private String oldEmail;
+
+    @Email
+    @NotEmpty(message = "Email не должен быть пустым")
+    private String newEmail;
 }

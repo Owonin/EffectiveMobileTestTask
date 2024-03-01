@@ -1,8 +1,13 @@
 package com.effectiveMobile.testTask.controller;
 
 import com.effectiveMobile.testTask.dto.EmailDto;
+import com.effectiveMobile.testTask.dto.EmailUpdateDto;
 import com.effectiveMobile.testTask.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +29,28 @@ public class EmailController {
      * @return ResponseEntity
      */
     @Operation(summary = "Endpoint создания новой записи почты")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Успешная операция",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "403", description = "Нет прав на изменение данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "404", description = "Авторизованый пользователь не найден в системе",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "409", description = "Email уже зарегестрирован",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )})
+    })
     @PostMapping
     public ResponseEntity<String> saveNewUserEmail(@RequestBody @Valid EmailDto emailDto) {
         emailService.createEmail(emailDto);
@@ -34,15 +61,34 @@ public class EmailController {
     /**
      * Endpoint создания новой записи почты
      *
-     * @param newEmail Dto старого адреса электронной почты
-     * @param oldEmail Dto адреса нового электронной почты
      * @return ResponseEntity
      */
     @Operation(summary = "Endpoint изменения записи почты")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешная операция",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "403", description = "Нет прав на изменение данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "404", description = "Авторизованый пользователь или email не найден в системе",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "409", description = "Email уже зарегестрирован",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )})
+    })
     @PatchMapping
-    public ResponseEntity<String> transaction(@RequestBody @Valid EmailDto newEmail,
-                                              @RequestBody @Valid EmailDto oldEmail) {
-        emailService.updateEmail(oldEmail, newEmail);
+    public ResponseEntity<String> transaction(@RequestBody @Valid EmailUpdateDto emailUpdateDto) {
+        emailService.updateEmail(emailUpdateDto);
 
         return ResponseEntity.ok("Почтовый адрес изменен успешно");
     }
@@ -54,10 +100,28 @@ public class EmailController {
      * @return ResponseEntity
      */
     @Operation(summary = "Endpoint удаления записи почты")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Успешная операция",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "403", description = "Нет прав на изменение данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "404", description = "Авторизованый пользователь или email не найден в системе",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )})
+    })
     @DeleteMapping
     public ResponseEntity<String> deleteUserEmail(@RequestBody @Valid EmailDto emailDto) {
         emailService.deleteEmail(emailDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Почта сохранена");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Почта удалена");
     }
 }

@@ -2,6 +2,7 @@ package com.effectiveMobile.testTask.service;
 
 
 import com.effectiveMobile.testTask.dto.PhoneDto;
+import com.effectiveMobile.testTask.dto.PhoneUpdateDto;
 
 /**
  * Сервис работы с электронными почтами
@@ -25,8 +26,6 @@ public interface PhoneService {
     /**
      * Обновление электронноый почты
      *
-     * @param oldPhoneDto Dto старого электронного почтового адреса
-     * @param newPhoneDto Dto нового электронного почтового адреса
      */
-    void updatePhone(PhoneDto oldPhoneDto, PhoneDto newPhoneDto);
+    void updatePhone(PhoneUpdateDto phoneUpdateDto);
 }

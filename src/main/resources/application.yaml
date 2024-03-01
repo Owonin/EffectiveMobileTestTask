@@ -4,6 +4,13 @@ server:
     include-stacktrace: never
 
 spring:
+  cache:
+    type: redis
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    timeout: 60000
   datasource:
     url: jdbc:postgresql://localhost:5432/testTaskDB
     driverClassName: org.postgresql.Driver

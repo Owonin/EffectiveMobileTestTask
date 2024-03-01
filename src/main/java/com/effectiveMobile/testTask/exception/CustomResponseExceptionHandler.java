@@ -74,4 +74,15 @@ public class CustomResponseExceptionHandler {
     public ResponseEntity<String> handleDateTimeException(DateTimeParseException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не вверный формат данных, введите дату формата yyyy-MMM-dd");
     }
+
+    /**
+     * Обработчик ошибок ввода сущестующих сущностей
+     *
+     * @param ex Ошибка ввода данных
+     * @return Сообщение об ошибке
+     */
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<String> handleDateTimeException(ConflictException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 }

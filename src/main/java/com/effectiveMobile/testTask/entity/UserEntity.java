@@ -28,8 +28,7 @@ import java.util.Set;
 public class UserEntity implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "login", unique = true, nullable = false)
@@ -51,11 +50,11 @@ public class UserEntity implements UserDetails {
     private LocalDate birthday;
 
     @Valid
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<EmailEntity> emails;
 
     @Valid
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<PhoneEntity> phones;
 
     @Enumerated(EnumType.STRING)

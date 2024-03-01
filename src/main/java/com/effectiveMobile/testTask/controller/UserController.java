@@ -5,6 +5,10 @@ import com.effectiveMobile.testTask.response.UserListResponse;
 import com.effectiveMobile.testTask.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +38,24 @@ public class UserController {
      * @return Список найденных пользователей
      */
     @Operation(summary = "Endpoint получения списка пользователей")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешная операция",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserListResponse.class)
+                    )}),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "403", description = "Нет прав на просмотр данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "404", description = "Авторизованый пользователь не найден в системе",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )})
+    })
     @GetMapping
     public ResponseEntity<UserListResponse> getAllUsers(@Parameter(description = "Параметр фильтации по ФИО")
                                                         @RequestParam(required = false) String usernameFilter,
@@ -62,6 +84,24 @@ public class UserController {
      * @return ResponseEntity
      */
     @Operation(summary = "Endpoint перевода денег на счет другого пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешная операция",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "403", description = "Нет прав на изменение данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "404", description = "Авторизованый пользователь не найден в системе",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )})
+    })
     @PostMapping("/transaction/{recipientLogin}")
     public ResponseEntity<String> transaction(@PathVariable("recipientLogin") String recipientLogin, //todo swagger
                                               @RequestBody @Valid TransactionRequest transactionRequest) {

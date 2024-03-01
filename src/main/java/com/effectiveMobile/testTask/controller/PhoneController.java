@@ -1,8 +1,13 @@
 package com.effectiveMobile.testTask.controller;
 
 import com.effectiveMobile.testTask.dto.PhoneDto;
+import com.effectiveMobile.testTask.dto.PhoneUpdateDto;
 import com.effectiveMobile.testTask.service.PhoneService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +29,28 @@ public class PhoneController {
      * @return ResponseEntity
      */
     @Operation(summary = "Endpoint создания номера телефона")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Успешная операция",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "403", description = "Нет прав на изменение данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "404", description = "Авторизованый пользователь не найден в системе",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "409", description = "Телефон уже зарегестрирован",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )})
+    })
     @PostMapping
     public ResponseEntity<String> saveNewUserPhone(@RequestBody @Valid PhoneDto phone) {
         phoneService.createPhone(phone);
@@ -34,15 +61,34 @@ public class PhoneController {
     /**
      * Endpoint изменения номера телефона
      *
-     * @param newPhone Dto нового номера телефона
-     * @param oldPhone Dto старого номера телефона
      * @return ResponseEntity
      */
     @Operation(summary = "Endpoint изменения номера телефона")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешная операция",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "403", description = "Нет прав на изменение данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "404", description = "Авторизованый пользователь или телефон не найден в системе",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "409", description = "Телефон уже зарегестрирован",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )})
+    })
     @PatchMapping
-    public ResponseEntity<String> transaction(@RequestBody @Valid PhoneDto newPhone,
-                                              @RequestBody @Valid PhoneDto oldPhone) {
-        phoneService.updatePhone(oldPhone, newPhone);
+    public ResponseEntity<String> transaction(@RequestBody @Valid PhoneUpdateDto phoneUpdateDto) {
+        phoneService.updatePhone(phoneUpdateDto);
 
         return ResponseEntity.ok("Номер телефона изменен успешно");
     }
@@ -54,10 +100,28 @@ public class PhoneController {
      * @return ResponseEntity
      */
     @Operation(summary = "Endpoint удаления номера телефона")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Успешная операция",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "403", description = "Нет прав на изменение данных",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+            @ApiResponse(responseCode = "404", description = "Авторизованый пользователь или телефон не найден в системе",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema
+                    )}),
+    })
     @DeleteMapping
     public ResponseEntity<String> deleteUserPhone(@RequestBody @Valid PhoneDto phone) {
         phoneService.deletePhone(phone);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Почта сохранена");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Почта сохранена");
     }
 }

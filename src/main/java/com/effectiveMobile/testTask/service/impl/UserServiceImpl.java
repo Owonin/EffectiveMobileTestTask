@@ -1,9 +1,12 @@
 package com.effectiveMobile.testTask.service.impl;
 
 import com.effectiveMobile.testTask.aop.annotation.Loggable;
+import com.effectiveMobile.testTask.entity.EmailEntity;
+import com.effectiveMobile.testTask.entity.PhoneEntity;
 import com.effectiveMobile.testTask.entity.Role;
 import com.effectiveMobile.testTask.entity.UserEntity;
 import com.effectiveMobile.testTask.exception.BadRequestException;
+import com.effectiveMobile.testTask.exception.ConflictException;
 import com.effectiveMobile.testTask.exception.NotFoundException;
 import com.effectiveMobile.testTask.mapper.UserMapper;
 import com.effectiveMobile.testTask.repository.UserRepository;
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,8 +37,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     public static final String USERNAME_NOT_FOUND_EXCEPTION_MESSAGE_WITH_LOGIN = "Пользователь с логином %s не был найден";
-    public static final String USERNAME_NOT_FOUND_EXCEPTION_MESSAGE = "Пользователь не был найден";
     public static final String NOT_ENOUGH_BALANCE_ERROR_MESSAGE = "Недостаточно средст на балансе для перевода";
+    public static final String USER_IS_ALREADY_REGISTATED = "Пользователь с этим логином уже заренестрирован";
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -78,9 +82,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void userSingUp(UserCreationRequest userCreationRequest) {
         var userEntity = userMapper.userCreationRequestToUserEntity(userCreationRequest);
+
+        if (userRepository.findUserByLogin(userEntity.getLogin()).isPresent()) {
+            throw new ConflictException(USER_IS_ALREADY_REGISTATED);
+        }
+
         userEntity.setCreationDateTime(LocalDateTime.now());
         userEntity.setRole(Role.USER_ROLE);
         userEntity.setCurrentBalance(userEntity.getStartBalance());
+
+        for (PhoneEntity phone : userEntity.getPhones()) {
+            phone.setUser(userEntity);
+        }
+
+        for (EmailEntity email : userEntity.getEmails()) {
+            email.setUser(userEntity);
+        }
 
         userRepository.save(userEntity);
     }
@@ -94,7 +111,7 @@ public class UserServiceImpl implements UserService {
         var senderBudget = sender.getCurrentBalance();
         var recipientBudget = recipient.getCurrentBalance();
 
-        if (senderBudget.compareTo(amount) < 0) {
+        if (senderBudget.compareTo(amount) >= 0) {
             sender.setCurrentBalance(senderBudget.add(amount.negate()));
             recipient.setCurrentBalance(recipientBudget.add(amount));
 
@@ -200,7 +217,8 @@ public class UserServiceImpl implements UserService {
      *
      * @return Логин авторизованного пользователя
      */
-    private String getCurrentAuthenticatedUserLogin() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    protected String getCurrentAuthenticatedUserLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 }

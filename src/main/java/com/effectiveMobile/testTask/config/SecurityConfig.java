@@ -13,8 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -34,9 +33,9 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request
-                                .requestMatchers("/public/**").permitAll()
-                                .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
-                                .anyRequest().permitAll())
+                                .requestMatchers("api/private/**").authenticated()
+                                .requestMatchers("api/public/**").permitAll()
+                                .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll())
                 .sessionManagement(manager ->
                         manager
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -47,15 +46,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
         return authProvider;
     }
 

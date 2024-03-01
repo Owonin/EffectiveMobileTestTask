@@ -39,7 +39,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <createSequence sequenceName="users_id_seq" incrementBy="1" startValue="1" />
+        <createSequence sequenceName="users_seq" incrementBy="1" startValue="1" />
 
         <createTable tableName="emails">
             <column name="id" type="SERIAL">
@@ -53,7 +53,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
-        <createSequence sequenceName="email_id_seq" incrementBy="1" startValue="1" />
+        <createSequence sequenceName="email_seq" incrementBy="1" startValue="1" />
 
         <createTable tableName="phones">
             <column name="id" type="SERIAL">
@@ -67,6 +67,6 @@
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
-        <createSequence sequenceName="email_id_seq" incrementBy="1" startValue="1" />
+        <createSequence sequenceName="phones_seq" incrementBy="1" startValue="1" />
     </changeSet>
 </databaseChangeLog>

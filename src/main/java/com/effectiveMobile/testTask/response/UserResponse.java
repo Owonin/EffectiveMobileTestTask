@@ -25,10 +25,6 @@ public class UserResponse {
     @Size(min = 6, max = 20, message = "Имя пользователя должно быть от 6 до 20 знаков")
     private String login;
 
-    @NotBlank(message = "Пароль не должен быть пустым")
-    @Size(min = 6, max = 50, message = "Пароль должен быть от 6 до 20 знаков")
-    private String password;
-
     @NotBlank(message = "ФИО пользователя не должно быть пустым")
     private String username;
 

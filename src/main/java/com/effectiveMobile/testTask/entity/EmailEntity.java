@@ -14,8 +14,7 @@ import lombok.Setter;
 @Table(name = "emails")
 public class EmailEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_id_seq")
-    @SequenceGenerator(name = "email_id_seq", sequenceName = "email_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "email", unique = true, nullable = false)
