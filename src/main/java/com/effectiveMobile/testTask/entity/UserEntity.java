@@ -2,7 +2,9 @@ package com.effectiveMobile.testTask.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +28,6 @@ import java.util.Set;
 public class UserEntity implements UserDetails {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
     private Long id;
@@ -43,37 +44,37 @@ public class UserEntity implements UserDetails {
 
     @Column(name = "username", nullable = false)
     @NotBlank(message = "ФИО пользователя не должно быть пустым")
-    private String fullUsername;
+    private String username;
 
-    @Column(name = "birthDate", nullable = false)
-    @NotBlank(message = "Дата рождения пользователя не должно быть пустым")
+    @Column(name = "birthday", nullable = false)
+    @NotNull(message = "Дата рождения пользователя не должно быть пустым")
     private LocalDate birthday;
 
     @Valid
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<EmailEntity> emails;
 
     @Valid
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<PhoneEntity> phones;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "startBalance", nullable = false)
-    @Size(min = 1, message = "Начальные накапления не должны быть пустыми")
+    @Column(name = "start_balance", nullable = false)
+    @DecimalMin(value = "0.01", message = "Начальные накапления не должны быть пустыми")
     private BigDecimal startBalance;
 
-    @Column(name = "currentMoney", nullable = false)
-    @Size(min = 0, message = "Текущие накапленя не могут быть отрицательными")
+    @Column(name = "current_balance", nullable = false)
+    @DecimalMin(value = "0.01", message = "Текущие накапленя не могут быть отрицательными")
     private BigDecimal currentBalance;
 
-    @Column(name = "creationDateTime", nullable = false)
+    @Column(name = "creation_date_time", nullable = false)
     private LocalDateTime creationDateTime;
 
-    @Column(name = "lastUpdateTime", nullable = false)
-    private LocalDateTime lastUpdateTime;
+    @Column(name = "is_limit_achieved")
+    private boolean isLimitAchieved;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

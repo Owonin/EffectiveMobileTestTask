@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Класс для работы с jwt токенами
+ */
 @Slf4j
 @Component
 public class JwtUtils {
@@ -84,7 +87,6 @@ public class JwtUtils {
         return validateToken(REFRESH_SECRET_KEY, token);
 
     }
-
     public Boolean validateAccessToken(String token) {
         return validateToken(SECRET_KEY, token);
     }

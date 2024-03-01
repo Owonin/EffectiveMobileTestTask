@@ -1,14 +1,27 @@
 package com.effectiveMobile.testTask.service;
 
-import com.effectiveMobile.testTask.dto.JwtDto;
-import com.effectiveMobile.testTask.dto.UserDto;
+import com.effectiveMobile.testTask.entity.UserEntity;
+import com.effectiveMobile.testTask.response.JwtResponse;
 
 
+/**
+ * Сервис работы с jwt
+ */
 public interface JwtService {
 
-    void singUp(UserDto user);
+    /**
+     * Генерация токенов
+     *
+     * @param userEntity Пользователь
+     * @return Токены для авторизации
+     */
+    JwtResponse createToken(UserEntity userEntity);
 
-    JwtDto createToken(UserDto userDto);
-
-    JwtDto refresh(String refreshToken);
+    /**
+     * Обновление access токена
+     *
+     * @param refreshToken refresh токен
+     * @return Обновленные токены
+     */
+    JwtResponse refresh(String refreshToken);
 }

@@ -1,9 +1,31 @@
 package com.effectiveMobile.testTask.service;
 
+import com.effectiveMobile.testTask.dto.EmailDto;
+
+/**
+ * Сервис работы с электронными почтами
+ */
 public interface EmailService {
-    void deleteEmail(String login, String deleteEmailAddress);
+    /**
+     * Удаление электронной почты
+     *
+     * @param emailDto Dto электронного почтового адреса
+     */
+    void deleteEmail(EmailDto emailDto);
 
-    void createEmail(String login, String addEmailAddress);
+    /**
+     * Создание электронной почты
+     *
+     * @param emailDto Dto электронного почтового адреса
+     */
+    void createEmail(EmailDto emailDto);
 
-    void updateEmail(String login, String oldEmailAddress, String updateEmailAddress);
+
+    /**
+     * Обновление электронноый почты
+     *
+     * @param oldEmailDto Dto старого электронного почтового адреса
+     * @param newEmailDto Dto нового электронного почтового адреса
+     */
+    void updateEmail(EmailDto oldEmailDto, EmailDto newEmailDto);
 }

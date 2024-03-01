@@ -6,7 +6,7 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * Аннотация для валидации номера телефона
+ * Аннотация валидации номера телефона
  */
 @Documented
 @Constraint(validatedBy = PhoneNumberValidator.class)

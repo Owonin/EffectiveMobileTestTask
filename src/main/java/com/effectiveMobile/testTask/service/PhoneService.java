@@ -1,16 +1,32 @@
 package com.effectiveMobile.testTask.service;
 
+
+import com.effectiveMobile.testTask.dto.PhoneDto;
+
+/**
+ * Сервис работы с электронными почтами
+ */
 public interface PhoneService {
+    /**
+     * Удаление электронной почты
+     *
+     * @param phoneDto Dto электронного почтового адреса
+     */
+    void deletePhone(PhoneDto phoneDto);
 
     /**
-     * Удаление телефона пользователя
+     * Создание электронной почты
      *
-     * @param login             Логин пользователя
-     * @param deletePhoneNumber Номер телефона для удаления пользователя
+     * @param phoneDto Dto электронного почтового адреса
      */
-    void deletePhone(String login, String deletePhoneNumber);
+    void createPhone(PhoneDto phoneDto);
 
-    void createPhone(String login, String addPhoneNumber);
 
-    void updatePhone(String login, String oldPhoneNumber, String updatePhoneNumber);
+    /**
+     * Обновление электронноый почты
+     *
+     * @param oldPhoneDto Dto старого электронного почтового адреса
+     * @param newPhoneDto Dto нового электронного почтового адреса
+     */
+    void updatePhone(PhoneDto oldPhoneDto, PhoneDto newPhoneDto);
 }

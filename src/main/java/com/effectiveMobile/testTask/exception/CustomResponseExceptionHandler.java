@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,5 +51,27 @@ public class CustomResponseExceptionHandler {
     @ExceptionHandler(AuthException.class)
     public ResponseEntity<String> handleAuthException(AuthException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+    }
+
+    /**
+     * Обработчик ошибок ввода данных
+     *
+     * @param ex Ошибка ввода данных
+     * @return Сообщение об ошибке
+     */
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    /**
+     * Обработчик ошибок ввода параметра даты
+     *
+     * @param ex Ошибка ввода данных
+     * @return Сообщение об ошибке
+     */
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<String> handleDateTimeException(DateTimeParseException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не вверный формат данных, введите дату формата yyyy-MMM-dd");
     }
 }

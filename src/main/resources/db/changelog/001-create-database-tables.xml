@@ -17,19 +17,25 @@
             <column name="password" type="VARCHAR(255)">
                 <constraints nullable="false" unique="false"/>
             </column>
-            <column name="last_update_time" type="timestamp(6)">
-                <constraints/>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="role" type="VARCHAR(255)">
+                <constraints nullable="false" unique="false"/>
             </column>
             <column name="creation_date_time" type="timestamp(6)">
                 <constraints/>
             </column>
-            <column name="birth_date" type="date">
+            <column name="is_limit_achieved" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="startBalance" type="NUMERIC(38,2)">
+            <column name="birthday" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="currentBalance" type="NUMERIC(38,2)">
+            <column name="start_balance" type="NUMERIC(38,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_balance" type="NUMERIC(38,2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>

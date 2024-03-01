@@ -1,5 +1,7 @@
-package com.effectiveMobile.testTask.dto;
+package com.effectiveMobile.testTask.request;
 
+import com.effectiveMobile.testTask.dto.EmailDto;
+import com.effectiveMobile.testTask.dto.PhoneDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -8,19 +10,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-/**
- * Dto сущности пользователя
- */
-@Builder
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
-
-    @Positive
-    private Long id;
-
+public class UserCreationRequest {
     @NotBlank(message = "Логин пользователя не должно быть пустым")
     @Size(min = 6, max = 20, message = "Имя пользователя должно быть от 6 до 20 знаков")
     private String login;
@@ -44,5 +39,5 @@ public class UserDto {
 
     @Positive
     @DecimalMin(value = "1.00", message = "Начальные накапления не должны быть пустыми")
-    private BigDecimal money;
+    private BigDecimal startBalance;
 }

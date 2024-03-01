@@ -3,6 +3,9 @@ package com.effectiveMobile.testTask.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+/**
+ * Валидатор номеров телефонна
+ */
 public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber,String> {
 
     /**

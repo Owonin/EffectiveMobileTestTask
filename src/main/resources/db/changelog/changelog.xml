@@ -5,13 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
         logicalFilePath="db/changelog.xml">
-    <changeSet id="createSchema" author="alex">
-        <sql>
-            CREATE SCHEMA private_schema;
-        </sql>
-        <sql>
-            CREATE SCHEMA util;
-        </sql>
-    </changeSet>
     <include file="001-create-database-tables.xml" relativeToChangelogFile="true"/>
+    <include file="002-insert-data.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

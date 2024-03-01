@@ -19,6 +19,8 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/changelog.xml
     enabled: true
+  quartz:
+    job-interval: 60000
 
 auth:
   access-secret-key: this.secret.key.should.be.replaced

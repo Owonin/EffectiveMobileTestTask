@@ -1,28 +1,29 @@
 package com.effectiveMobile.testTask.controller;
 
-import com.effectiveMobile.testTask.dto.EmailDto;
-import com.effectiveMobile.testTask.dto.PhoneDto;
-import com.effectiveMobile.testTask.dto.UserDto;
+import com.effectiveMobile.testTask.request.UserCreationRequest;
+import com.effectiveMobile.testTask.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.Set;
-
 /**
  * Служебное API для регистрации пользователей
  */
 @RestController
-@RequestMapping("public/api/auth")
+@RequestMapping("api/public/auth")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
 
+    private final UserService userService;
+
+    @Operation(summary = "Endpoint регистрации пользователя")
     @PostMapping
-    ResponseEntity<?> login(@RequestBody @Valid UserDto userDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body("");
+    ResponseEntity<?> regUser(@RequestBody @Valid UserCreationRequest userCreationRequest) {
+        userService.userSingUp(userCreationRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Пользователь создан");
     }
 }
